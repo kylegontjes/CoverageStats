@@ -1,6 +1,9 @@
 # CoverageStats
 Calculate coverage statistics after mapping short-read sequenced isolates to a reference sequence
 
+# Installation of package
+git clone https://github.com/kylegontjes/CoverageStats.git
+
 # Before running the pipeline
 ## 1. Set up the reference genome  
 ### Create index of reference genome
@@ -20,6 +23,8 @@ sample_names=$(ls -1 $path | grep _R1 | cut -d. -f1  | sed 's\_R1\\' | sed 's\_R
 echo -e\n $sample_id $sample_names | tr ' ' '\n' > config/sample.tsv
 
 # Running snakemake workflow
+module load singularity
+module load snakemake
 snakemake -s CoverageStats.smk --use-conda --use-singularity -j 999 --cluster "sbatch -A {cluster.account} -p {cluster.partition} -N {cluster.nodes} -t {cluster.walltime} -c {cluster.procs} --mem-per-cpu {cluster.pmem} --output=slurm_out/slurm-%j.out" --conda-frontend conda --cluster-config config/cluster.json --configfile config/config.yaml --latency-wait 30 --keep-going 
 
 # To run many isolates at the same time (and possibly close the computer, try running this command)
