@@ -37,7 +37,7 @@ rule curate_reference_size:
     singularity:
         "docker://quay.io/biocontainers/bioawk:1.0--he4a0461_12"
     shell:
-        "bioawk -c fastx '{{ print $name, length($seq) }}' < {params.reference_genome} > {output.reference_size_file}"
+        "bioawk -c fastx '{{ print $name, length($seq) }}' < {input.reference_genome} > {output.reference_size_file}"
 
 # Step 0.2: Curate reference bed file for gatk
 rule curate_reference_bed:
