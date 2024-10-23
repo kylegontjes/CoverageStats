@@ -35,6 +35,7 @@ echo -e\n $sample_id $sample_names | tr ' ' '\n' > config/sample.tsv
 module load singularity
 
 module load snakemake
+
 snakemake -s CoverageStats.smk --use-conda --use-singularity -j 999 --cluster "sbatch -A {cluster.account} -p {cluster.partition} -N {cluster.nodes} -t {cluster.walltime} -c {cluster.procs} --mem-per-cpu {cluster.pmem} --output=slurm_out/slurm-%j.out" --conda-frontend conda --cluster-config config/cluster.json --configfile config/config.yaml --latency-wait 30 --keep-going 
 
 # To run many isolates at the same time (and possibly close the computer, try running this command)
