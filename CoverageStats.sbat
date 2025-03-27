@@ -1,5 +1,5 @@
 #!/bin/sh
-#SBATCH --job-name=ISScreener
+#SBATCH --job-name=CoverageStats
 #SBATCH --mail-user=kgontjes@umich.edu
 #SBATCH --mail-type=BEGIN,FAIL,END,REQUEUE
 #SBATCH --export=ALL
