@@ -1,6 +1,6 @@
 # Author: Kyle Gontjes
 
-configfile: "config/config.yaml"
+configfile: "config/config_pretrimmed.yaml"
 
 import pandas as pd
 import os
