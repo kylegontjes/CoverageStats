@@ -33,14 +33,16 @@ echo -e\n $sample_id $sample_names | tr ' ' '\n' > config/sample.tsv
 
 # Running snakemake workflow
 module load singularity
-
 module load snakemake
 
 # Dry run
 snakemake -s CoverageStats.smk --dryrun -p
 
 # Sample command
+## On non-trimmed files
 snakemake -s CoverageStats.smk --use-singularity -j 999 --cluster "sbatch -A {cluster.account} -p {cluster.partition} -N {cluster.nodes} -t {cluster.walltime} -c {cluster.procs} --mem-per-cpu {cluster.pmem} --output=slurm_out/slurm-%j.out" --cluster-config config/cluster.json --configfile config/config.yaml --latency-wait 30 --keep-going 
+## On pre-trimmed files
+snakemake -s CoverageStats_pretrimmed.smk --use-singularity -j 999 --cluster "sbatch -A {cluster.account} -p {cluster.partition} -N {cluster.nodes} -t {cluster.walltime} -c {cluster.procs} --mem-per-cpu {cluster.pmem} --output=slurm_out/slurm-%j.out" --cluster-config config/cluster.json --configfile config/config_pretrimmed.yaml --latency-wait 30 --keep-going 
 
 # To run many isolates at the same time (and possibly close the computer, try running this command)
-srun --account=esnitkin1 --nodes=1 --ntasks-per-node=1 --mem-per-cpu=5GB --cpus-per-task=1 --time=12:00:00 --pty /bin/bash
+sbatch CoverageStats.sbat 
