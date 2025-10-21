@@ -5,22 +5,27 @@ Calculate coverage statistics after mapping short-read sequenced isolates to a r
 git clone https://github.com/kylegontjes/CoverageStats.git
 
 # Before running the pipeline
-## 1. Set up the reference genome  
-### Create index of reference genome
+## 1. Set up the reference genome 
+### Approach #1: Helper script 
+bash index_reference_genome.sh [reference_genome.fasta]
+
+### Approach #2: Manual curation
+### A. Create index of reference genome
 module load Bioinformatics 
 
 module load bwa 
 
-bwa index [reference genome] 
-### Create fai index file
+bwa index [reference_genome.fasta]
+
+### B. Create fai index file
 module load samtools 
 
-samtools faidx [reference genome] 
+samtools faidx [reference_genome.fasta]
 
-### Create sequence dictionary
+### C. Create sequence dictionary
 module load gatk 
 
-gatk CreateSequenceDictionary -R [reference genome] 
+gatk CreateSequenceDictionary -R [reference_genome.fasta]
 
 ## 2. Generate isolate list
 path="/nfs/esnitkin/Project_Penn_KPC/Sequence_data/fastq/Penn/SRA_submission/"
