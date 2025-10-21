@@ -31,9 +31,9 @@ sample_names=$(ls -1 $path | grep _R1 | cut -d. -f1 | sed 's/_R1//')
 
 echo -e\n $sample_id $sample_names | tr ' ' '\n' > config/sample.tsv
 
-## 3. Edit the confif/cluster.json file with your account, email address (email), and desired walltime (walltime)
+## 3. Edit the config/cluster.json file with your account, email address (email), and desired walltime (walltime)
 
-## 4. Update the config.yaml or config_pretrimmed.yaml with sample list, prefix (results folder name), input reads path (input_reads), and the reference genome  path (reference_genome)
+## 4. Update the config/config.yaml or config/config_pretrimmed.yaml with sample list (samples), results folder name (prefix), input reads' path (input_reads), and the reference genome's path (reference_genome)
 
 # Running snakemake workflow
 module load singularity
