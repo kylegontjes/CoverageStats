@@ -26,7 +26,9 @@ rule all:
         aligned_sam_file = expand("results/{prefix}/{sample}/align_reads/{sample}_aln.sam",prefix=PREFIX,sample=SAMPLE),
         sorted_bam_file = expand("results/{prefix}/{sample}/post_align/{sample}_sorted_aln.bam",prefix=PREFIX,sample=SAMPLE),
         final_bam = expand("results/{prefix}/{sample}/post_align/remove_duplicates/{sample}_final.bam",prefix=PREFIX,sample=SAMPLE),
-        summary = expand("results/{prefix}/{sample}/gatk/{sample}_summary",prefix=PREFIX,sample=SAMPLE)
+        summary = expand("results/{prefix}/{sample}/gatk/{sample}_summary",prefix=PREFIX,sample=SAMPLE),
+        summary_statistics = expand("results/{prefix}/{sample}/gatk/{sample}_CoverageStats_summary.txt",prefix=PREFIX,sample=SAMPLE)
+
  
 # Step 0.1: Curate reference file for gatk
 rule curate_reference_size:
@@ -167,3 +169,16 @@ rule gatk_coverage:
         "docker://broadinstitute/gatk" 
     shell:
         "gatk DepthOfCoverage -R {params.reference_genome} -O {output.summary} -I {input.final_bam}  --summary-coverage-threshold 1 --summary-coverage-threshold 5 --summary-coverage-threshold 9 --summary-coverage-threshold 10 --summary-coverage-threshold 15 --summary-coverage-threshold 20 --summary-coverage-threshold 25 --ignore-deletion-sites --intervals {input.reference_window_file} &> {log.gatk_log}"
+
+# Step 6: Generate summary statistics
+rule summary_statistics:
+    input: 
+        summary = f"results/{{prefix}}/{{sample}}/gatk/{{sample}}_summary"
+    output:
+        summary_statistics = f"results/{{prefix}}/{{sample}}/gatk/{{sample}}_CoverageStats_summary.txt"
+    params:
+        wd = f"results/{{prefix}}/{{sample}}/gatk/" 
+    singularity:
+        "docker://rocker/r-base"   
+    script:
+        "bash_scripts/summary_statistics.R"
