@@ -47,15 +47,16 @@ module load snakemake
 # Dry run
 snakemake -s CoverageStats.smk --dryrun -p
 
-# Sample command
-## On non-trimmed files
-snakemake -s CoverageStats.smk --use-singularity -j 999 --cluster "sbatch -A {cluster.account} -p {cluster.partition} -N {cluster.nodes} -t {cluster.walltime} -c {cluster.procs} --mem-per-cpu {cluster.pmem} --output=slurm_out/slurm-%j.out" --cluster-config config/cluster.json --configfile config/config.yaml --latency-wait 30 --keep-going 
-## On pre-trimmed files
-snakemake -s CoverageStats_pretrimmed.smk --use-singularity -j 999 --cluster "sbatch -A {cluster.account} -p {cluster.partition} -N {cluster.nodes} -t {cluster.walltime} -c {cluster.procs} --mem-per-cpu {cluster.pmem} --output=slurm_out/slurm-%j.out" --cluster-config config/cluster.json --configfile config/config_pretrimmed.yaml --latency-wait 30 --keep-going 
-
-# To run many isolates at the same time (and possibly close the computer, try running this command)
+# Preferred method: Running sbat script 
 ## On non-trimmed files
 sbatch CoverageStats.sbat 
 
 ## On pre-trimmed files
 sbatch CoverageStats_pretrimmed.sbat
+
+
+# Alternative method: Run command in terminal as interactive job
+## On non-trimmed files
+snakemake -s CoverageStats.smk --use-singularity -j 999 --cluster "sbatch -A {cluster.account} -p {cluster.partition} -N {cluster.nodes} -t {cluster.walltime} -c {cluster.procs} --mem-per-cpu {cluster.pmem} --output=slurm_out/slurm-%j.out" --cluster-config config/cluster.json --configfile config/config.yaml --latency-wait 30 --keep-going 
+## On pre-trimmed files
+snakemake -s CoverageStats_pretrimmed.smk --use-singularity -j 999 --cluster "sbatch -A {cluster.account} -p {cluster.partition} -N {cluster.nodes} -t {cluster.walltime} -c {cluster.procs} --mem-per-cpu {cluster.pmem} --output=slurm_out/slurm-%j.out" --cluster-config config/cluster.json --configfile config/config_pretrimmed.yaml --latency-wait 30 --keep-going 
