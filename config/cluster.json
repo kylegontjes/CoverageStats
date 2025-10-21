@@ -6,7 +6,7 @@
      "nodes": 1,
      "procs": 9,
      "pmem": "5GB",
-     "walltime": "6:00:00",
+     "walltime": "0:30:00",
      "email": "kgontjes@umich.edu",
      "mail_type": "BEGIN,FAIL",
      "output": "logs/cluster/{rule}.{wildcards}.out",
